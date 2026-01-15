@@ -21,7 +21,7 @@ def test_fill_miles_from_zip(tmp_path):
     output_path = tmp_path / "output.xlsx"
     _write_sample_workbook(input_path)
 
-    summaries = fill_miles_in_workbook(input_path, output_path, origin_zip="35773")
+    summaries = fill_miles_in_workbook(input_path, output_path, origin_zip="35763")
 
     assert output_path.exists()
     assert summaries[0].total_rows == 3

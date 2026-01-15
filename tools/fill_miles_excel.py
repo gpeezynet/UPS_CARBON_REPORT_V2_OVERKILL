@@ -274,7 +274,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--origin-zip",
         dest="origin_zip",
-        default="35773",
+        default="35763",
         help="Fallback origin ZIP when a sheet has no origin ZIP column",
     )
     return parser.parse_args()

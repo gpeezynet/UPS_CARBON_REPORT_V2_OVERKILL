@@ -17,8 +17,8 @@ python -m ups_carbon your_ups_report.csv --out-dir ./output --origin-zip 35761
 Fill the Miles column in an existing Excel workbook without changing the layout.
 
 ```bash
-python tools/fill_miles_excel.py --in "C:\Georgie\WorkTools\2025_CLIMATE_REPORT_PARSED_ZIPS.xlsx" --origin-zip 35773
-python tools/fill_miles_excel.py --in "C:\Georgie\WorkTools\LTL_EXPORT.xlsx" --origin-zip 35773 --out "C:\Georgie\WorkTools\LTL_EXPORT_MILES_FILLED.xlsx"
+python tools/fill_miles_excel.py --in "C:\Georgie\WorkTools\2025_CLIMATE_REPORT_PARSED_ZIPS.xlsx" --origin-zip 35763
+python tools/fill_miles_excel.py --in "C:\Georgie\WorkTools\LTL_EXPORT.xlsx" --origin-zip 35763 --out "C:\Georgie\WorkTools\LTL_EXPORT_MILES_FILLED.xlsx"
 ```
 
 ## Features
