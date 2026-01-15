@@ -1,0 +1,6 @@
+Tracking Number,Pickup Date,Service Level,Weight,Receiver Zip Code,Sender Zip Code,Reference No.1," Billed Charge "," Incentive Credit "
+1Z999AA10123456784,2025-01-02,UPS Ground,5,90210-1234,35761,SO-1,$10.00,$-
+1Z999AA10123456784,2025-01-03,UPS Next Day Air,6,90210,35761,SO-1,$5.00,$(1.00)
+1Z999AA10123456785,2025-01-04,UPS 2nd Day Air,2,10001,,SO-2,$12.00,$(0.50)
+,2025-01-05,UPS Ground,3,30301,35761,SO-3,$8.00,$-
+INVALID,2025-01-06,UPS Ground,4,60601,35761,SO-4,$7.00,$-
