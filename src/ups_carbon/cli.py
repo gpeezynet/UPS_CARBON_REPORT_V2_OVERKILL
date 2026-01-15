@@ -149,7 +149,8 @@ def main(
     # Load CSV
     try:
         df = processor.load_csv(csv_path)
-        click.echo(f"Loaded {len(df)} rows")
+        raw_row_count = len(df)
+        click.echo(f"Loaded {raw_row_count} rows")
     except Exception as e:
         click.echo(f"Error loading CSV: {e}", err=True)
         sys.exit(1)
@@ -165,11 +166,11 @@ def main(
 
     # Process data
     click.echo("Calculating mileage and emissions...")
-    detail_df, exceptions = processor.process(df)
+    shipments_df, exceptions_df, _ = processor.process(df)
 
     # Create order rollup
     click.echo("Creating order-level rollup...")
-    order_rollup = processor.create_order_rollup(detail_df)
+    order_rollup = processor.create_order_rollup(shipments_df)
 
     # Output file paths
     base_name = csv_path.stem
@@ -191,21 +192,22 @@ def main(
     calc_cols = [
         "weight_lb", "origin_zip", "dest_zip", "zone", "service",
         "miles_est", "miles_method", "mode_est", "ton_miles", "kg_co2_est",
-        "is_exception", "exception_reason"
+        "is_exception", "exception_reason", "total_cost_usd"
     ]
     for col in calc_cols:
-        if col not in output_cols and col in detail_df.columns:
+        if col not in output_cols and col in shipments_df.columns:
             output_cols.append(col)
 
-    detail_df[[c for c in output_cols if c in detail_df.columns]].to_csv(
+    shipments_df[[c for c in output_cols if c in shipments_df.columns]].to_csv(
         detail_path, index=False
     )
 
     # Generate Excel report
     click.echo(f"Writing Excel report: {report_path.name}")
     generate_excel_report(
-        detail_df, order_rollup, report_path,
-        input_filename=csv_path.name
+        shipments_df, order_rollup, report_path,
+        input_filename=csv_path.name,
+        exceptions_df=exceptions_df,
     )
 
     # Generate ASSUMPTIONS.md
@@ -220,18 +222,18 @@ def main(
     click.echo("\n" + "=" * 50)
     click.echo("SUMMARY")
     click.echo("=" * 50)
-    click.echo(f"Total packages: {len(detail_df)}")
-    click.echo(f"Unique orders: {detail_df['order_id'].nunique()}")
+    click.echo(f"Total packages: {len(shipments_df)}")
+    click.echo(f"Unique orders: {shipments_df['order_id'].nunique()}")
 
-    total_co2 = detail_df["kg_co2_est"].sum()
+    total_co2 = shipments_df["kg_co2_est"].sum()
     if pd.notna(total_co2):
         click.echo(f"Total kg CO2 (est): {total_co2:,.2f}")
         click.echo(f"Total metric tons CO2: {total_co2/1000:,.4f}")
 
-    click.echo(f"Exceptions: {len(exceptions)}")
+    click.echo(f"Exceptions: {len(exceptions_df)}")
 
-    if len(exceptions) > 0:
-        click.echo(f"\nWarning: {len(exceptions)} rows have missing data (see exceptions tab)")
+    if len(exceptions_df) > 0:
+        click.echo(f"\nWarning: {len(exceptions_df)} rows have missing data (see exceptions tab)")
 
     click.echo("\n" + "=" * 50)
     click.echo("OUTPUT FILES")

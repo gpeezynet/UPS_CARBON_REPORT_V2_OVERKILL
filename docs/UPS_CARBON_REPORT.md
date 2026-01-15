@@ -5,6 +5,7 @@ A command-line tool that processes UPS shipping report CSVs and generates carbon
 ## Features
 
 - **Automatic column detection**: Works with various UPS CSV formats
+- **Monthly Shipping Costs support**: Normalizes UPS Monthly Shipping Costs exports
 - **ZIP-to-ZIP mileage**: Uses pgeocode for accurate distance estimation
 - **Zone fallback**: Falls back to zone-based estimates when ZIP unavailable
 - **Multi-package order support**: Groups packages by Sales Order or Tracking Number
@@ -69,6 +70,23 @@ run_report.bat
 | Sales Order | "Sales Order", "SO", "Order Number", "Reference Number 1/2/3" |
 | Ship Date | "Ship Date", "Pickup Date", "Shipped Date" |
 | Origin ZIP | "Sender Zip", "Origin Zip", "Ship From Zip" |
+
+### Monthly Shipping Costs Export
+
+The UPS **Monthly Shipping Costs** CSV export is supported and auto-normalized.
+Required columns:
+
+- Tracking Number
+- Pickup Date
+- Service Level
+- Weight
+- Receiver Zip Code
+- Reference No.1
+- Billed Charge
+- Incentive Credit
+
+Optional:
+- Sender Zip Code (used for origin ZIP)
 
 ## Output Files
 

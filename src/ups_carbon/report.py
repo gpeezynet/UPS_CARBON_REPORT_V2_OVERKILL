@@ -13,6 +13,7 @@ def generate_excel_report(
     order_rollup_df: pd.DataFrame,
     output_path: str | Path,
     input_filename: str = "input.csv",
+    exceptions_df: Optional[pd.DataFrame] = None,
 ):
     """
     Generate Excel report with multiple summary tabs.
@@ -48,7 +49,11 @@ def generate_excel_report(
         order_rollup_df.to_excel(writer, sheet_name="by_order", index=False)
 
         # Exceptions
-        exceptions_df = detail_df[detail_df["is_exception"] == True].copy()
+        if exceptions_df is None:
+            exceptions_df = detail_df[detail_df["is_exception"] == True].copy()
+        else:
+            exceptions_df = exceptions_df.copy()
+
         if len(exceptions_df) > 0:
             # Select relevant columns for exceptions
             exc_cols = ["order_id", "exception_reason", "weight_lb", "origin_zip",

@@ -51,6 +51,18 @@ class TestColumnDetection:
         mapping = detect_columns(columns)
         assert mapping.sales_order == "Reference Number 1"
 
+    def test_detect_reference_no1_as_sales_order(self):
+        """Test that Reference No.1 columns are detected as sales order."""
+        columns = ["Reference No.1", "Weight"]
+        mapping = detect_columns(columns)
+        assert mapping.sales_order == "Reference No.1"
+
+    def test_detect_service_level(self):
+        """Test that Service Level is detected as service."""
+        columns = ["Service Level", "Weight"]
+        mapping = detect_columns(columns)
+        assert mapping.service == "Service Level"
+
     def test_overrides_take_precedence(self):
         """Test that CLI overrides take precedence over auto-detection."""
         columns = ["Billed Weight", "Package Weight"]
